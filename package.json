@@ -1,0 +1,9 @@
+{
+	"name": "twittaction",
+	"version": "0.0.1",
+	"dependencies": {
+		"express": "2.3.4",
+		"jade": "0.11.0",
+		"stylus": "0.12.4"
+	}
+}
