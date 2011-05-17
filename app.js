@@ -2,15 +2,13 @@
 /**
  * Module dependencies.
  */
-
+require.paths.unshift('./node_modules');
 var express = require('express');
-
 var app = module.exports = express.createServer(),
 	site = {
 		com: require("./app/twittaction.com"),
 		ac: require("./app/twt.ac")
 	};
-
 
 app.use(express.vhost("twittaction.com", site.com));
 app.use(express.vhost("twt.ac", site.ac));
