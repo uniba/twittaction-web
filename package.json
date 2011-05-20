@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"dependencies": {
 		"express": "2.3.4",
+		"express-messages": "0.0.2",
 		"jade": "0.11.0",
 		"stylus": "0.12.4",
 		"mongoose": "1.3.3"
