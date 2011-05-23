@@ -2,17 +2,22 @@
  * Module dependencies.
  */
 
-var express = require('express');
-var app = module.exports = express.createServer();
-var mongoose = require('mongoose');
+var express = require('express'),
+	app = module.exports = express.createServer();
+	mongoose = require('mongoose'),
+	schema = require(__dirname + '/../lib/schema')
+;
+
+app.configure(function() {
+	schema.define(mongoose);
+});
 
 // Routes
 app.get('/', function(req, res) {
 	res.send({ server_name: "twittaction.com" });
 });
 
-app.post('/action', function(req, res) {
-	
+app.post('/action', function(req, res) {	
 });
 
 // Only listen on $ node app.js
