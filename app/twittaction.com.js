@@ -9,7 +9,9 @@ var express = require('express'),
 ;
 
 app.configure(function() {
-	schema.define(mongoose);
+	schema.define(mongoose, function(mongoose) {
+		mongoose.connect(process.env.MONGODB_URI);
+	});
 });
 
 // Routes
