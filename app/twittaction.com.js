@@ -12,6 +12,7 @@ app.configure(function() {
 	schema.define(mongoose, function(mongoose) {
 		mongoose.connect(process.env.MONGODB_URI);
 	});
+    app.use(express.bodyParser());
 });
 
 // Routes
@@ -21,11 +22,14 @@ app.get('/', function(req, res) {
 });
 
 
-app.use(express.bodyParser());
+
 // http://havelog.ayumusato.com/develop/javascript/e214-express_post_params.html [引用]2011-05-01 20:39追記：同メソッドの名前が，express バージョン2.3.2時点でbodyParserに変更されているようです．
 
 app.post('/action', function(req, res) {
-	
+	console.log(req.body);
+    //console.log("Express server listening on port %d", app.address().port);
+    //console.log("Express server listening on port %d", app.address().port);
+    
     var userId='';
     var message='';
     var sequence='';
@@ -33,6 +37,7 @@ app.post('/action', function(req, res) {
     userId = req.body.userId;
     message =  req.body.message;
     sequence =  req.body.sequence;
+    
     var Action = mongoose.model('Action');
     
     save(userId,message,sequence,Action,res);//自作関数
@@ -87,7 +92,7 @@ function save(userId,message,sequence,Action,res){
         key += random[arrayKey];
     }//３つの数字の中から、2桁の数字のkeyの組み合わせは 3*3=9 通り。keyが被ったら別のkeyを作成するかのテスト。 すでに、9個のkeyがDBにあったら、無限ループに入る。
     */
-    var short = "http://twt_dev:3000/action/" + key;
+    var short = "http://10.4.0.54:3002/action/" + key;
     var Action = Action;
     
     var action = new Action();
