@@ -36,4 +36,8 @@ app.configure('production', function() {
 if (!module.parent) {
 	app.listen(3000);
 	console.log("Express server listening on port %d", app.address().port);
+	site.com.listen(3001);
+	console.log("Express server listening on port %d", site.com.address().port);
+	site.ac.listen(3002);
+	console.log("Express server listening on port %d", site.ac.address().port);
 }
