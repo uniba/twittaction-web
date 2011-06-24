@@ -41,11 +41,11 @@ app.get('/action/:key', function(req, res) {
     // http://mongoosejs.com/docs/api.html model の finds document
     var Action = mongoose.model('Action');
     Action.find({key:key}, function(err, docs) {
-       /*res.send(docs);
-       * これをやると、取得したデータが一覧表示される。jsonみたい。
+        res.send(docs);
+       /*これをやると、取得したデータが一覧表示される。jsonみたい。
        *
        */
-       res.send(docs[0].sequence);
+       //res.send(docs[0].sequence);
     });
     
 });//app.get('/action/:key', function(req, res ,next) {
