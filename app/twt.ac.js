@@ -19,7 +19,6 @@ app.get('/', function(req, res) {
 	res.send({ server_name: "twt.ac" });
 });
 
-
 app.get('/action/:key', function(req, res) {
         
     /* プログラムでは、「/action/:key」　のように、「:」　が書いてあるが、
@@ -41,11 +40,13 @@ app.get('/action/:key', function(req, res) {
     // http://mongoosejs.com/docs/api.html model の finds document
     var Action = mongoose.model('Action');
     Action.find({key:key}, function(err, docs) {
-        res.send(docs);
+       // res.send(docs);
        /*これをやると、取得したデータが一覧表示される。jsonみたい。
        *
        */
-       //res.send(docs[0].sequence);
+       
+       //以下のhtml ファイルは改行すると SyntaxError になる。
+       res.send('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" /><title>Twittaction</title><link rel="stylesheet" href="http://dev.uniba.jp/~ryo/twittaction/css/basic.css"/><script src="http://dev.uniba.jp/~ryo/twittaction/js/jquery.1.6.js"></script><script src="http://dev.uniba.jp/~ryo/twittaction/js/jsdeferred.js"></script><script src="http://dev.uniba.jp/~ryo/twittaction/js/move.js"></script><script src="http://dev.uniba.jp/~ryo/twittaction/js/twittaction.js"></script></head><body>  <header>    <h1>Twittaction</h1>  </header>  <div id="wrapper">    <div id="stage">      <div class="inner">        <div id="cube">          <div class="inner" id="cube-inner">            <div class="side-a"></div>            <div class="side-b"></div>            <div class="side-c"></div>            <div class="side-d"></div>            <div class="side-e"></div>            <div class="side-f"></div>          </div>        </div>      </div>    </div>  </div>  <script>var tmp ='       +docs[0].sequence[0]+       '; var data = [];    for (var i = 0, len = tmp["X"].length; i < len; i++) {        data.push({            x: tmp["X"][i] * 5,            y: tmp["Y"][i] * 5,            z: tmp["Z"][i] * 5        });    };    Twittaction("cube-inner").add(data).execute();  </script></body></html>');
     });
     
 });//app.get('/action/:key', function(req, res ,next) {
@@ -56,3 +57,39 @@ if (!module.parent) {
 	app.listen(3000);
 	console.log("Express server listening on port %d", app.address().port);
 }
+
+/*
+app.get('/movement/:key', function(req, res) {
+
+    var key=req.params.key;
+    
+    switch (key){
+    case 'basic.css':
+    res.send(key);
+        break;
+        
+        
+    case 'jquery.1.6.js':
+    res.send(key);
+        break;
+    
+    
+    case 'jsdeferred.js':
+    res.send(key);
+        break;
+    
+    
+    case 'move.js':
+    res.send(key);
+        break;
+    
+    
+    case 'twittaction.js':
+    res.send(key);
+        break;
+
+    
+    }
+	
+});
+*/
