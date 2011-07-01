@@ -92,7 +92,7 @@ function save(userId,message,sequence,Action,res){
         key += random[arrayKey];
     }//３つの数字の中から、2桁の数字のkeyの組み合わせは 3*3=9 通り。keyが被ったら別のkeyを作成するかのテスト。 すでに、9個のkeyがDBにあったら、無限ループに入る。
     */
-    var short = "http://10.4.0.54:3002/action/" + key;
+    var short = "http://twt.ac/action/" + key;
     var Action = Action;
     
     var action = new Action();
