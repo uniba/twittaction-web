@@ -34,13 +34,15 @@ app.post('/action', function(req, res) {
     var message='';
     var sequence='';
     var key = '';
+    var profile_image_url_https = '';
+
     userId = req.body.userId;
     message =  req.body.message;
     sequence =  req.body.sequence;
-    
+    profile_image_url_https = req.body.profile_image_url_https;
     var Action = mongoose.model('Action');
     
-    save(userId,message,sequence,Action,res);//自作関数
+    save(userId,message,sequence,Action,profile_image_url_https,res);//自作関数
     
 });//app.post('/action', function(req, res) {
 
@@ -63,7 +65,7 @@ app.post('/action', function(req, res) {});
     
     action.save(function(err) {
         if(err){         
-            save(userId,message,sequence,Action,res);
+            save(userId,message,sequence,Action,profile_image_url_https,res);
         }else{
             //res.send("送信成功しました。");
             res.send(short);
@@ -71,10 +73,11 @@ app.post('/action', function(req, res) {});
     
     この部分で使う。
 */
-function save(userId,message,sequence,Action,res){
+function save(userId,message,sequence,Action,profile_image_url_https,res){
     var userId = userId;
     var message = message;
     var sequence = sequence;
+    var profile_image_url_https = profile_image_url_https;
     var key = '';
    
     var random = new Array(0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','i','j','k','m','n','l','o','p','q','r','s','t','u','v','w','x','y','z');
@@ -100,13 +103,28 @@ function save(userId,message,sequence,Action,res){
     action.message = message;
     action.sequence.push(sequence);
     action.key = key;
-    
+    action.profile_image_url_https = profile_image_url_https;
+
     action.save(function(err) {
         if(err){         
-            save(userId,message,sequence,Action,res);
+            save(userId,message,sequence,Action,profile_image_url_https,res);
         }else{
             //res.send("送信成功しました。");
             res.send(short);
         }
     });
 }
+
+app.post('/update', function(req, res) { 
+    console.log(req.body);  
+    var key = req.body.key;
+    var message = req.body.message;	
+    console.log(key);
+    console.log(message);
+  	var Action = mongoose.model('Action');
+  		Action.update({key:key},  { message:message
+	 },{ upsert: true, multi: true } ,function(err) {
+		return;
+	 });
+	//res.send(); 
+}); 
