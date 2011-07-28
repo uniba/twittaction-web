@@ -39,10 +39,10 @@
                 var flag = true;
                 Move(this)
                     .translate(x, y)
-                    .duration('0.1s')
+                    .duration('0.07s')
                     .then()
                         .translate(-x, -y)
-                        .duration('0.1s')
+                        .duration('0.07s')
                         .then(function() { dfd.call(); })
                         .pop()
                     .end();

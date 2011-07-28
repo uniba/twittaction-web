@@ -15,6 +15,16 @@ app.configure(function() {
 	});
 });
 
+   process.on('uncaughtException', function (err) {
+//             res.send('URLが間違っているようです');
+          console.log('uncaughtException => ' + err);
+
+
+    });
+
+
+
+
 // Routes
 app.get('/', function(req, res) {
 	res.send({ server_name: "twt.ac" });
@@ -33,7 +43,11 @@ app.get('/action/:key', function(req, res) {
     
     
     var key=req.params.key;
-    
+  console.log('キーの長さ:'+key.length); 
+   if(key.length!=7){
+   res.send('<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" /><title>Twittaction エラー</title></head><body>間違ったURLです。(キーの長さが違う)</body></html>');
+       
+   }else{
     /* http://b.ruyaka.com/2011/03/24/node-jsmongoose%E3%81%A7mongodb%E3%82%92%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B-serversmanvps/
      *下の方のコード
     */
@@ -54,19 +68,39 @@ app.get('/action/:key', function(req, res) {
        */
     
     // エラー処理 なんかうまくいかない。エラーが起こっても、落ちなくなったが、send するのは1回だけ
-   process.on('uncaughtException', function (err) {
-             res.send('URLが間違っているようです');
-          console.log('uncaughtException => ' + err);
+  // process.on('uncaughtException', function (err) {
+    //         res.send('URLが間違っているようです');
+      //    console.log('uncaughtException => ' + err);
 
 
-    });
+   // });
+   //
+   //
+   //
+  // res.send(docs);
+   console.log('モンゴエラー:'+err);
+   console.log('docs:'+  docs[0] );
+	if(docs[0] == undefined ){
+		res.send('誤ったURLです。(キーが違う。) ');
+	}else{
 
-
-
+	var sequence = JSON.parse(docs[0].sequence[0]);
+	//var check = typeof sequence;
+	//console.log("表示");
+	//console.log(sequence.X);
+	console.log('docs[0].message:'+docs[0].message);
+	console.log('docs[0].modified'+docs[0].modified);
+      // console.log('docs:'+docs);
 
        //以下のhtml ファイルは改行すると SyntaxError になる。
-       res.send('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" /><title>Twittaction</title><link rel="stylesheet" href="http://twittaction.com/movement/css/basic.css"/><script src="http://twittaction.com/movement/js/jquery.1.6.js"></script><script src="http://twittaction.com/movement/js/jsdeferred.js"></script><script src="http://twittaction.com/movement/js/move.js"></script><script src="http://twittaction.com/movement/js/twittaction.js"></script></head><body> <!-- <header>    <h1>Twittaction</h1>  </header> --> ' + docs[0].message + '<div id="wrapper">    <div id="stage">      <div class="inner">        <div id="cube">          <div class="inner" id="cube-inner">            <div class="side-a"></div>            <div class="side-b"></div>            <div class="side-c"></div>            <div class="side-d"></div>            <div class="side-e"></div>            <div class="side-f"></div>          </div>        </div>      </div>    </div>  </div>  <script>var tmp ='       +docs[0].sequence[0]+       '; var data = [];    for (var i = 0, len = tmp["X"].length; i < len; i++) {        data.push({            x: tmp["X"][i] * 5,            y: tmp["Y"][i] * 5,            z: tmp["Z"][i] * 5        });    };    Twittaction("cube-inner").add(data).execute();  $(document).ready(function(){        $("#cube div:not(.inner)").css("background-image"," url(\\" ' + docs[0].profile_image_url_https + ' \\") ");    }); </script></body></html>')
-    });
+       res.send('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" /><title>Twittaction</title><link rel="stylesheet" href="http://twittaction.com/movement/css/basic.css"/><script src="http://twittaction.com/movement/js/jquery.1.6.js"></script>.<script src="http://twittaction.com/movement/js/jsdeferred.js"></script><script src="http://twittaction.com/movement/js/move.js"></script><script src="http://twittaction.com/movement/js/twittaction.js"></script><script src="http://twittaction.com/movement/js/drawlib/jsDraw2D.js"></script><script src="http://twittaction.com/movement/js/drawlib/accel.js"></script><script>UA_myArrayX = ['+sequence.X+'];UA_myArrayY =['+sequence.Y+'];UA_myArrayZ = ['+sequence.Z+'];for(i=0;i<UA_myArrayX.length;i++){setTimeout ("onAlert(UA_myArrayX["+i+"],UA_myArrayY["+i+"],UA_myArrayZ["+i+"]);",i*150)}</script> <style>body {background-color: black} div#tweet{  font-size: 12px; background-image: url("http://dl.dropbox.com/u/27652974/twittaction%20%E3%81%AE%E3%82%B3%E3%83%94%E3%83%BC/fukidashi1.png"); position: relative; top: 0%; height:110px; background-repeat: no-repeat ;background-size:100% 100%; }  .time{ color: red; right:25px;position:absolute;}</style></head><body> <!-- <header>    <h1>Twittaction</h1>  </header> --><div id="tweet"> ' + docs[0].message + ' <br> <span class="time">' + docs[0].modified + '</span></div> <div id="wrapper">   <div id="stage">      <div class="inner">        <div id="cube">          <div class="inner" id="cube-inner">            <div class="side-a"></div>            <div class="side-b"></div>            <div class="side-c"></div>            <div class="side-d"></div>            <div class="side-e"></div>            <div class="side-f"></div>        </div>        </div>      </div>    </div>  </div>  <script>var tmp ='+docs[0].sequence[0]+'; var data = [];    for (var i = 0, len = tmp["X"].length; i < len; i++) {        data.push({            x: tmp["X"][i] * 5,            y: tmp["Y"][i] * 5,            z: tmp["Z"][i] * 5        });    };    Twittaction("cube-inner").add(data).execute();  $(document).ready(function(){        $("#cube div:not(.inner)").css("background-image"," url(\\"'+ docs[0].profile_image_url_https +'  \\") ");    }); </script><div id="canvasAccel" style="overflow:visible;position:relative;bottom:0%"></div>  </body></html>');
+   
+	}
+  });
+
+	
+  } //else{
+
     
 });//app.get('/action/:key', function(req, res ,next) {
 

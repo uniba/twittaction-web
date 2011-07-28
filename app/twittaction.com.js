@@ -21,6 +21,14 @@ app.get('/', function(req, res) {
 	res.send({ server_name: "twittaction.com" });
 });
 
+  process.on('uncaughtException', function (err) {
+             res.send('URLが間違っているようです');
+          console.log('uncaughtException => ' + err);
+
+
+    });
+
+
 
 
 // http://havelog.ayumusato.com/develop/javascript/e214-express_post_params.html [引用]2011-05-01 20:39追記：同メソッドの名前が，express バージョン2.3.2時点でbodyParserに変更されているようです．
@@ -124,7 +132,19 @@ app.post('/update', function(req, res) {
   	var Action = mongoose.model('Action');
   		Action.update({key:key},  { message:message
 	 },{ upsert: true, multi: true } ,function(err) {
+		console.log('update error:'+err); 
 		return;
 	 });
+
+  process.on('uncaughtException', function (err) {
+             res.send('URLが間違っているようです');
+          console.log('uncaughtException => ' + err);
+
+
+    });
+
+
+1
+	
 	//res.send(); 
 }); 
