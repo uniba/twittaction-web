@@ -21,12 +21,10 @@ app.get('/', function(req, res) {
 	res.send({ server_name: "twittaction.com" });
 });
 
-  process.on('uncaughtException', function (err) {
-             res.send('URLが間違っているようです');
-          console.log('uncaughtException => ' + err);
-
-
-    });
+process.on('uncaughtException', function (err) {
+  res.send('URLが間違っているようです');
+  console.log('uncaughtException => ' + err);
+});
 
 
 
@@ -34,7 +32,7 @@ app.get('/', function(req, res) {
 // http://havelog.ayumusato.com/develop/javascript/e214-express_post_params.html [引用]2011-05-01 20:39追記：同メソッドの名前が，express バージョン2.3.2時点でbodyParserに変更されているようです．
 
 app.post('/action', function(req, res) {
-	console.log(req.body);
+    console.log('/action body:'+req.body);
     //console.log("Express server listening on port %d", app.address().port);
     //console.log("Express server listening on port %d", app.address().port);
     
@@ -135,16 +133,64 @@ app.post('/update', function(req, res) {
 		console.log('update error:'+err); 
 		return;
 	 });
-
-  process.on('uncaughtException', function (err) {
-             res.send('URLが間違っているようです');
-          console.log('uncaughtException => ' + err);
-
-
     });
 
+app.post('/socialGraph',function(req,res){
+    console.log('/socialGraph body:'+req.body);
+    var userId='';
+    var friends = ''; 
 
-1
-	
-	//res.send(); 
+    userId = req.body.userId;
+    friends =  req.body.friends;
+    
+    console.log('/socialGraph userId:'+userId); 
+    console.log('/socialGraph friends:'+friends);
+    
+    var socialGraph = mongoose.model('socialGraph');
+    var socialGraph = new socialGraph();
+    socialGraph.userId = userId;
+    socialGraph.friends = friends;
+    socialGraph.save(function(err) {
+        if(err){
+          console.log('/socialGraph mongoose save error:'+err);       
+         /*
+	 socialGraph.update({userId:userId},  { friends:friends
+         },{ upsert: false, multi: true } ,function(err) {
+                console.log('/socialGraph update error:'+err);
+                return;
+         });
+	*/
+  //var socialGraph = mongoose.model('socialGraph');
+   // var socialGraph = new socialGraph();
+   
+  
+//	 console.log(userId);
+  //       console.log(req.body.userId);
+
+
+
+//	var socialGraph2 = new socialGraph();
+console.log('socialGrapht2');
+
+	socialGraph.remove({}, function(err) {
+	console.log('/socialGraph remove error:'+err);
+	});
+        // socialGraph.userId = userId;
+       // socialGraph.friends = friends;
+	/*
+	socialGraph.save(function(err) {
+		 console.log('/socialGraph resave error:'+err);
+
+	}); 
+	*/
+	console.log('/socialGraph last');
+	 res.send('');
+         }else{
+          console.log('/socialGraph mongoose save success'); 
+          res.send('');
+	}
+   });
+
+//	console.log('/socialGraph last');
+	//res.send(''); 
 }); 
