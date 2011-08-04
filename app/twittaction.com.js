@@ -36,19 +36,23 @@ app.post('/action', function(req, res) {
     //console.log("Express server listening on port %d", app.address().port);
     //console.log("Express server listening on port %d", app.address().port);
     
-    var userId='';
-    var message='';
-    var sequence='';
-    var key = '';
-    var profile_image_url_https = '';
-
+    var userId = '' ;
+    var message = '' ;
+    var sequence = '' ;
+    var key = '' ;
+    var profile_image_url_https = '' ;
+    var formatTime = '' ;
+    var screen_name = '' ;
     userId = req.body.userId;
     message =  req.body.message;
     sequence =  req.body.sequence;
     profile_image_url_https = req.body.profile_image_url_https;
+    formatTime = req.body.formatTime;
+    screen_name = req.body.screen_name;    
+
     var Action = mongoose.model('Action');
     
-    save(userId,message,sequence,Action,profile_image_url_https,res);//自作関数
+    save(userId,message,sequence,Action,profile_image_url_https,formatTime,screen_name,res);//自作関数
     
 });//app.post('/action', function(req, res) {
 
@@ -79,11 +83,13 @@ app.post('/action', function(req, res) {});
     
     この部分で使う。
 */
-function save(userId,message,sequence,Action,profile_image_url_https,res){
-    var userId = userId;
-    var message = message;
-    var sequence = sequence;
-    var profile_image_url_https = profile_image_url_https;
+function save(userId,message,sequence,Action,profile_image_url_https,formatTime,screen_name,res){
+    var userId = userId ;
+    var message = message ;
+    var sequence = sequence ;
+    var profile_image_url_https = profile_image_url_https ;
+    var formatTime = formatTime ; 
+    var screen_name = screen_name ;
     var key = '';
    
     var random = new Array(0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','i','j','k','m','n','l','o','p','q','r','s','t','u','v','w','x','y','z');
@@ -105,15 +111,16 @@ function save(userId,message,sequence,Action,profile_image_url_https,res){
     var Action = Action;
     
     var action = new Action();
-    action.userId = userId;
-    action.message = message;
-    action.sequence.push(sequence);
-    action.key = key;
-    action.profile_image_url_https = profile_image_url_https;
-
+    action.userId = userId ;
+    action.message = message ;
+    action.sequence.push(sequence) ;
+    action.key = key ;
+    action.profile_image_url_https = profile_image_url_https ;
+    action.formatTime = formatTime ;
+    action.screen_name = screen_name ;
     action.save(function(err) {
         if(err){         
-            save(userId,message,sequence,Action,profile_image_url_https,res);
+            save(userId,message,sequence,Action,profile_image_url_https,formatTime,screen_name,res);
         }else{
             //res.send("送信成功しました。");
             res.send(short);
@@ -135,6 +142,8 @@ app.post('/update', function(req, res) {
 	 });
     });
 
+
+
 app.post('/socialGraph',function(req,res){
     console.log('/socialGraph body:'+req.body);
     var userId='';
@@ -152,45 +161,37 @@ app.post('/socialGraph',function(req,res){
     socialGraph.friends = friends;
     socialGraph.save(function(err) {
         if(err){
-          console.log('/socialGraph mongoose save error:'+err);       
-         /*
-	 socialGraph.update({userId:userId},  { friends:friends
-         },{ upsert: false, multi: true } ,function(err) {
+         console.log('/socialGraph mongoose save error:'+err);       
+   	 var updateSocialGraph = mongoose.model('socialGraph');      
+	 updateSocialGraph.update( { userId: userId } ,  { friends:friends
+         },{ upsert: true, multi: true } ,function(err) {
                 console.log('/socialGraph update error:'+err);
                 return;
          });
-	*/
-  //var socialGraph = mongoose.model('socialGraph');
-   // var socialGraph = new socialGraph();
-   
-  
-//	 console.log(userId);
-  //       console.log(req.body.userId);
-
-
-
-//	var socialGraph2 = new socialGraph();
-console.log('socialGrapht2');
-
-	socialGraph.remove({}, function(err) {
-	console.log('/socialGraph remove error:'+err);
-	});
-        // socialGraph.userId = userId;
-       // socialGraph.friends = friends;
-	/*
-	socialGraph.save(function(err) {
-		 console.log('/socialGraph resave error:'+err);
-
-	}); 
-	*/
-	console.log('/socialGraph last');
+	console.log('/socialGraph update succese');
 	 res.send('');
          }else{
           console.log('/socialGraph mongoose save success'); 
           res.send('');
 	}
    });
+});
 
-//	console.log('/socialGraph last');
-	//res.send(''); 
-}); 
+
+// http://d.hatena.ne.jp/KrdLab/20110317/1300367785 参照
+// http://webcache.googleusercontent.com/search?q=cache:Aa4nAjbGvI4J:blog.ioi2oloo.me/archives/461+node+mongoose+sort&cd=8&hl=ja&ct=clnk&gl=jp&source=www.google.co.jp
+// sort とかの書き方。 
+app.post('/all',function(req,res){
+    console.log('twittaction.com/all;'); 
+    var Action = mongoose.model('Action');
+   // Action.find({},[],[[limit:15],[sort:-1]],function(err, docs) { 
+     Action.find({},[],{ sort:{modified:-1} , limit : 20 },function(err, docs) { 
+       console.log('モンゴエラー:'+err);
+      //var allDocs = JSON.parse(docs);
+      //console.log('docs:' +  allDocs[0].length );
+      if(!err){
+	res.send(docs);	
+      }
+    });
+});
+ 

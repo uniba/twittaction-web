@@ -77,7 +77,7 @@ app.get('/action/:key', function(req, res) {
    //
   // res.send(docs);
    console.log('モンゴエラー:'+err);
-   console.log('docs:'+  docs[0] );
+   console.log('docs:' +  docs[0] );
 	if(docs[0] == undefined ){
 		res.send('誤ったURLです。(キーが違う。) ');
 	}else{
