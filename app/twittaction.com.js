@@ -180,12 +180,15 @@ app.post('/socialGraph',function(req,res){
 
 // http://d.hatena.ne.jp/KrdLab/20110317/1300367785 参照
 // http://webcache.googleusercontent.com/search?q=cache:Aa4nAjbGvI4J:blog.ioi2oloo.me/archives/461+node+mongoose+sort&cd=8&hl=ja&ct=clnk&gl=jp&source=www.google.co.jp
-// sort とかの書き方。 
+// sort とかの書き方。
+//
+// http://www.mongodb.org/display/DOCS/Advanced+Queries　
+// find の条件式 
 app.post('/all',function(req,res){
     console.log('twittaction.com/all;'); 
     var Action = mongoose.model('Action');
-   // Action.find({},[],[[limit:15],[sort:-1]],function(err, docs) { 
-     Action.find({},[],{ sort:{modified:-1} , limit : 20 },function(err, docs) { 
+   // Use $ne for "not equals"
+     Action.find({ message:{$ne:''} },[],{ sort:{modified:-1} , limit : 20 },function(err, docs) { 
        console.log('モンゴエラー:'+err);
       //var allDocs = JSON.parse(docs);
       //console.log('docs:' +  allDocs[0].length );
@@ -193,5 +196,84 @@ app.post('/all',function(req,res){
 	res.send(docs);	
       }
     });
+});
+
+app.post('/follow',function(req,res){
+    console.log('/follow body:'+req.body);
+    var userId='';
+    userId = req.body.userId;
+    console.log('/follow body.userId:'+userId);
+
+    var socialGraph = mongoose.model('socialGraph'); 
+    socialGraph.find( { userId : userId } , function(err,docs){
+    console.log('/follow follow Id check モンゴエラー:'+err);
+     // var followList = JSON.parse(docs);
+    //var check = typeof docs[0].friends;
+      console.log('/follow followList1: ' + docs[0].friends );
+      console.log('/follow followList1: ' + typeof docs[0].friends );
+      console.log('/follow followList2: ' + docs[0].friends[0] );
+      console.log('/follow followList2: ' + typeof docs[0].friends[0] );
+      console.log('/follow followList3: ' + docs[0].friends[0].split(",") );
+      console.log('/follow followList3: ' + typeof docs[0].friends[0].split(",") );
+      console.log('/follow followList4: ' + docs[0].friends.toObject() );
+      console.log('/follow followList4: ' + typeof docs[0].friends.toObject() );
+
+      var test = docs[0].friends[0].replace(/(\(|\)| *|\n)/gm, "").split(",");
+	for (var i in test)
+{
+console.log("i ->'" + test[i] + "'");
+}
+
+      console.log('/follow followList5: ' + Object.prototype.toString.call(test) );
+/*
+	for (var i in docs[0].friends) {
+		console.log('key =>' + i);
+		console.log('val =>' + docs[0].friends[i]);
+	}
+
+	docs[0].friends.forEach(function(i, n) {
+		console.log(arguments);
+	});
+*/
+/*
+for (var i in docs[0].friends.split(/,/)){ 
+ console.log('/follow followList: ' + i );
+} 
+*/
+     // console.log('/docs: ' + docs[0] );
+    if(!err){
+//	var followList = [];
+//var chk = '' ;	
+//chk = docs[0].friends.toString() ;
+///	var che = eval(chk) ;
+//var replace = chk.replace
+var check = typeof docs[0].friends;
+console.log('/follow list : ' + check );
+//console.log('/follow list : ' + chk );	
+//res.send(docs[0].friends);	
+
+		
+	var Action = mongoose.model('Action');
+	//Action.find({ userId : { $in : [348887022,92686016,54502459,148961902,96684891,124415804,99008565,90521746,96707669,44791521,301187082] } } , [] , { sort:{modified:-1} , limit : 20 } , function(errFollow, docsFollow) {     
+test.push(userId);
+Action.find({ userId : { $in : test } } , [] , { sort:{modified:-1} , limit : 20 } , function(errFollow, docsFollow) {
+	console.log('/follow Action モンゴエラ-:'+errFollow);
+        if(!errFollow){
+         res.send(docsFollow);
+        }
+	});
+	
+      }
+
+    });
+/*
+    var Action = mongoose.model('Action');
+    Action.find({ message:{$ne:''} },[],{ sort:{modified:-1} , limit : 20 },function(err, docs) {  
+    console.log('/follow モンゴエラ-:'+err);
+      if(!err){
+        res.send(docs);
+      }
+    });
+*/
 });
  
