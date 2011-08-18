@@ -256,7 +256,7 @@ console.log('/follow list : ' + check );
 	var Action = mongoose.model('Action');
 	//Action.find({ userId : { $in : [348887022,92686016,54502459,148961902,96684891,124415804,99008565,90521746,96707669,44791521,301187082] } } , [] , { sort:{modified:-1} , limit : 20 } , function(errFollow, docsFollow) {     
 test.push(userId);
-Action.find({ userId : { $in : test } } , [] , { sort:{modified:-1} , limit : 20 } , function(errFollow, docsFollow) {
+Action.find({ userId : { $in : test } , message:{$ne:''} } , [] , { sort:{modified:-1} , limit : 20 } , function(errFollow, docsFollow) {
 	console.log('/follow Action モンゴエラ-:'+errFollow);
         if(!errFollow){
          res.send(docsFollow);
