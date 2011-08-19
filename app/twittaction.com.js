@@ -185,10 +185,13 @@ app.post('/socialGraph',function(req,res){
 // http://www.mongodb.org/display/DOCS/Advanced+Queries　
 // find の条件式 
 app.post('/all',function(req,res){
-    console.log('twittaction.com/all;'); 
+    console.log('twittaction.com/all;');
+    var page = req.body.page;
+    page = 20 * page;
+    console.log( 'twittaction.com/all; page = ' + page );
     var Action = mongoose.model('Action');
    // Use $ne for "not equals"
-     Action.find({ message:{$ne:''} },[],{ sort:{modified:-1} , limit : 20 },function(err, docs) { 
+     Action.find({ message:{$ne:''} },[],{ sort:{modified:-1} , limit : 20 , skip : page },function(err, docs) { 
        console.log('モンゴエラー:'+err);
       //var allDocs = JSON.parse(docs);
       //console.log('docs:' +  allDocs[0].length );
@@ -203,7 +206,9 @@ app.post('/follow',function(req,res){
     var userId='';
     userId = req.body.userId;
     console.log('/follow body.userId:'+userId);
-
+    var page = req.body.page;
+    page = page * 20;
+    console.log('/follow body.page:'+page);
     var socialGraph = mongoose.model('socialGraph'); 
     socialGraph.find( { userId : userId } , function(err,docs){
     console.log('/follow follow Id check モンゴエラー:'+err);
@@ -256,7 +261,7 @@ console.log('/follow list : ' + check );
 	var Action = mongoose.model('Action');
 	//Action.find({ userId : { $in : [348887022,92686016,54502459,148961902,96684891,124415804,99008565,90521746,96707669,44791521,301187082] } } , [] , { sort:{modified:-1} , limit : 20 } , function(errFollow, docsFollow) {     
 test.push(userId);
-Action.find({ userId : { $in : test } , message:{$ne:''} } , [] , { sort:{modified:-1} , limit : 5 , skip:0 } , function(errFollow, docsFollow) {
+Action.find({ userId : { $in : test } , message:{$ne:''} } , [] , { sort:{modified:-1} , limit : 20 , skip : page } , function(errFollow, docsFollow) {
 	console.log('/follow Action モンゴエラ-:'+errFollow);
         if(!errFollow){
          res.send(docsFollow);
@@ -266,14 +271,6 @@ Action.find({ userId : { $in : test } , message:{$ne:''} } , [] , { sort:{modifi
       }
 
     });
-/*
-    var Action = mongoose.model('Action');
-    Action.find({ message:{$ne:''} },[],{ sort:{modified:-1} , limit : 20 },function(err, docs) {  
-    console.log('/follow モンゴエラ-:'+err);
-      if(!err){
-        res.send(docs);
-      }
-    });
-*/
+
 });
  
