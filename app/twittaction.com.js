@@ -152,8 +152,8 @@ app.post('/socialGraph',function(req,res){
     userId = req.body.userId;
     friends =  req.body.friends;
     
-    console.log('/socialGraph userId:'+userId); 
-    console.log('/socialGraph friends:'+friends);
+   // console.log('/socialGraph userId:'+userId); 
+   // console.log('/socialGraph friends:'+friends);
     
     var socialGraph = mongoose.model('socialGraph');
     var socialGraph = new socialGraph();
@@ -214,22 +214,22 @@ app.post('/follow',function(req,res){
     console.log('/follow follow Id check モンゴエラー:'+err);
      // var followList = JSON.parse(docs);
     //var check = typeof docs[0].friends;
-      console.log('/follow followList1: ' + docs[0].friends );
-      console.log('/follow followList1: ' + typeof docs[0].friends );
-      console.log('/follow followList2: ' + docs[0].friends[0] );
-      console.log('/follow followList2: ' + typeof docs[0].friends[0] );
-      console.log('/follow followList3: ' + docs[0].friends[0].split(",") );
-      console.log('/follow followList3: ' + typeof docs[0].friends[0].split(",") );
-      console.log('/follow followList4: ' + docs[0].friends.toObject() );
-      console.log('/follow followList4: ' + typeof docs[0].friends.toObject() );
+//     console.log('/follow followList1: ' + docs[0].friends );
+  //    console.log('/follow followList1: ' + typeof docs[0].friends );
+   //   console.log('/follow followList2: ' + docs[0].friends[0] );
+   //   console.log('/follow followList2: ' + typeof docs[0].friends[0] );
+   //   console.log('/follow followList3: ' + docs[0].friends[0].split(",") );
+   //   console.log('/follow followList3: ' + typeof docs[0].friends[0].split(",") );
+   //   console.log('/follow followList4: ' + docs[0].friends.toObject() );
+   //   console.log('/follow followList4: ' + typeof docs[0].friends.toObject() );
 
       var test = docs[0].friends[0].replace(/(\(|\)| *|\n)/gm, "").split(",");
-	for (var i in test)
+/*	for (var i in test)
 {
 console.log("i ->'" + test[i] + "'");
 }
-
-      console.log('/follow followList5: ' + Object.prototype.toString.call(test) );
+*/
+  //    console.log('/follow followList5: ' + Object.prototype.toString.call(test) );
 /*
 	for (var i in docs[0].friends) {
 		console.log('key =>' + i);
