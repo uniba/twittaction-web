@@ -107,7 +107,7 @@ header h1 {
 }
 
 div#tweet{  
-	font-size: 12px; background-image: url("http://twittaction.com/movement/images/fukidashi1.png"); 
+	font-size: 12px; background-image: url("../images/fukidashi1.png"); 
 	position: absolute;
 	top: 0;
 	left: 50%;
