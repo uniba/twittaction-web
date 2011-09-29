@@ -252,8 +252,10 @@ for (var i in docs[0].friends.split(/,/)){
 //chk = docs[0].friends.toString() ;
 ///	var che = eval(chk) ;
 //var replace = chk.replace
-var check = typeof docs[0].friends;
-console.log('/follow list : ' + check );
+var check = docs[0].friends;
+console.log('/follow list : ' + check);
+console.log('/test list : ' + test);
+
 //console.log('/follow list : ' + chk );	
 //res.send(docs[0].friends);	
 
