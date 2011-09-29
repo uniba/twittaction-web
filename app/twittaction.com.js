@@ -223,7 +223,7 @@ app.post('/follow',function(req,res){
    //   console.log('/follow followList4: ' + docs[0].friends.toObject() );
    //   console.log('/follow followList4: ' + typeof docs[0].friends.toObject() );
 
-      var test = docs[0].friends[0].replace(/(\(|\)| *|\n)/gm, "").split(",");
+     // var test = docs[0].friends[0].replace(/(\(|\)| *|\n)/gm, "").split(",");
 /*	for (var i in test)
 {
 console.log("i ->'" + test[i] + "'");
@@ -252,9 +252,9 @@ for (var i in docs[0].friends.split(/,/)){
 //chk = docs[0].friends.toString() ;
 ///	var che = eval(chk) ;
 //var replace = chk.replace
-var check = docs[0].friends;
-console.log('/follow list : ' + check);
-console.log('/test list : ' + test);
+var check = eval("("+docs[0].friends[0]+")");
+console.log('/follow list : ' + check.ids);
+//console.log('/test list : ' + test[5]);
 
 //console.log('/follow list : ' + chk );	
 //res.send(docs[0].friends);	
@@ -263,7 +263,7 @@ console.log('/test list : ' + test);
 	var Action = mongoose.model('Action');
 	//Action.find({ userId : { $in : [348887022,92686016,54502459,148961902,96684891,124415804,99008565,90521746,96707669,44791521,301187082] } } , [] , { sort:{modified:-1} , limit : 20 } , function(errFollow, docsFollow) {     
 test.push(userId);
-Action.find({ userId : { $in : test } , message:{$ne:''} } , [] , { sort:{modified:-1} , limit : 20 , skip : page } , function(errFollow, docsFollow) {
+Action.find({ userId : { $in : check.ids } , message:{$ne:''} } , [] , { sort:{modified:-1} , limit : 20 , skip : page } , function(errFollow, docsFollow) {
 	console.log('/follow Action モンゴエラ-:'+errFollow);
         if(!errFollow){
          res.send(docsFollow);
