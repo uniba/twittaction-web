@@ -39,10 +39,10 @@
                 var flag = true;
                 Move(this)
                     .translate(x, y)
-                    .duration('0.01s')
+                    .duration('0.0s')
                     .then()
                         .translate(-x, -y)
-                        .duration('0.01s')
+                        .duration('0.033s')
                         .then(function() { dfd.call(); })
                         .pop()
                     .end();
@@ -58,20 +58,3 @@
     Deferred.define();
 
 })(this);
-
-function timeChenge(time){
-	var time = new Date(time);
-	var yy = time.getYear();
-	var  mm = time.getMonth() + 1;
-	var  dd = time.getDate();
-	var  tt= time.getHours();
-	var  mi= time.getMinutes();
-	var  ss=time.getMinutes();
-	if (yy < 2000) { yy += 1900; } 
-	if (mm < 10) { mm = "0" + mm; } 
-	if (dd < 10) { dd = "0" + dd; } 
-	if (tt < 10) { tt = "0" + tt; } 
-	if (mi < 10) { mi = "0" + mi; }
-	var pub_day = mm + "-" + dd + " " + tt + ":" + mi ;
-	return pub_day;
-} 
