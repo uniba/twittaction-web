@@ -254,8 +254,8 @@ for (var i in docs[0].friends.split(/,/)){
 //chk = docs[0].friends.toString() ;
 ///	var che = eval(chk) ;
 //var replace = chk.replace
-console.log('/follow test : ' + test );
 
+console.log('/follow test : ' +  test );
 console.log('/follow list docs[0] : ' + docs[0].friends[0] );
 
 //var check = eval("("+docs[0].friends[0]+")");
@@ -278,7 +278,8 @@ test.push(userId);
 Action.find({ userId : { $in : test } , message:{$ne:''} } , [] , { sort:{modified:-1} , limit : 20 , skip : page } , function(errFollow, docsFollow) {
 	console.log('/follow Action モンゴエラ-:'+errFollow);
         if(!errFollow){
-         res.send(docsFollow);
+        console.log('/follow Action 送信:'+docsFollow);
+	 res.send(docsFollow);
         }
 	});
 	
