@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	text-align: left;
+	color: #000000;
+	font-size: 1em;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+
+ul,li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+img, img a, a img{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-style: none;
+	text-decoration: none;
+	vertical-align: top;
+}
+
+object, embed{
+	vertical-align: top;
+}
+
+a {
+	text-decoration: none;
+	color: #000000;
+}
+
+a:focus {
+	outline: none;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	border-collapse: collapse;
+}
+
+input, button {
+	margin: 0;
+	padding: 0;
+}
+
+.clear {
+	clear: both;
+}
+
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.clearfix {
+	display: inline-block;
+}

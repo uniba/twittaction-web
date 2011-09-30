@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+body {
+	width: 100%;
+	font-size: 0.7em;
+	font-family: "Hiragino Mincho Pro", "MS PMincho";
+	line-height: 1.8em;
+}
+
+a {
+	color: #f29301;
+}
+
+a:hover {
+	color: #2e383f;
+}
+
+#container {
+	width: 640px;
+	margin: 0 auto;
+}
+
+h1 {
+	padding: 2em 0 1.5em 0;
+	font-weight: bold;
+}
+
+h2 {
+	padding: 0 0 0.2em 0.1em;
+}
+
+h3 {
+	padding: 2em 0 0 0;
+}
+
+h4 {
+	padding: 1.8em 0 0 0;
+}
+
+p {
+	margin: 0 0 1.8em 0;
+}
+
+dl dt {
+	width: 1em;
+}
+
+dl dd {
+	margin: -1.8em 0 0 1em;
+}
+
+dl.how {
+	padding: 0 0.5em 1.8em 0.5em;
+}
+
+
+dl.caution {
+	padding: 0 0.5em 3.6em 0.5em;
+}
+
+#footer {
+	padding: 0 0 10em 0;
+	border-top: 1px dotted #cccccc;
+}
+
+#footer p {
+	padding: 3em 0 0 0;
+}
