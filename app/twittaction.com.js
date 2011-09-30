@@ -13,12 +13,14 @@ app.configure(function() {
 		mongoose.connect(process.env.MONGODB_URI);
 	});
     app.use(express.bodyParser());
+		app.use(express.static(__dirname + '/public'));
 });
 
 // Routes
 app.get('/', function(req, res) {
     
-	res.send({ server_name: "twittaction.com" });
+	//res.send({ server_name: "twittaction.com" });
+	
 });
 
 process.on('uncaughtException', function (err) {
