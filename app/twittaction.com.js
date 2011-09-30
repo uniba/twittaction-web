@@ -19,7 +19,7 @@ app.configure(function() {
 // Routes
 app.get('/', function(req, res) {
     var html = fs.readFileSync('index.html');
-    res.send(html, { 'Content-Type': 'text/html' },200);
+    res.send(html, { 'Content-Type': 'text/html' });
 	//res.send({ server_name: "twittaction.com" });
 });
 
