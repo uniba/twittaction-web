@@ -7,20 +7,20 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	schema = require(__dirname + '/../lib/schema')
 ;
-
+var fs = require('fs');
 app.configure(function() {
 	schema.define(mongoose, function(mongoose) {
 		mongoose.connect(process.env.MONGODB_URI);
 	});
     app.use(express.bodyParser());
-		app.use(express.static(__dirname + '/public'));
+    app.use(express.static(__dirname + '/../public'));
 });
 
 // Routes
 app.get('/', function(req, res) {
-    
+    var html = fs.readFileSync('index.html');
+    res.send(html, { 'Content-Type': 'text/html' },200);
 	//res.send({ server_name: "twittaction.com" });
-	
 });
 
 process.on('uncaughtException', function (err) {
