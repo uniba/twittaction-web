@@ -10,7 +10,12 @@ var express = require('express'),
 
 app.configure(function() {
 	schema.define(mongoose, function(mongoose) {
-		mongoose.connect(process.env.MONGODB_URI);
+	mongoose.connect(process.env.MONGODB_URI);
+	// テンプレートエンジンejsの設定
+	var ejs = require('ejs');
+	app.set('view engine', 'ejs');
+	app.set('view options', { layout: false });
+	app.set('views', __dirname + '/../views');
         
 	});
 });
@@ -86,12 +91,15 @@ app.get('/action/:key', function(req, res) {
 	//var check = typeof sequence;
 	//console.log("表示");
 	//console.log(sequence.X);
-	console.log('docs[0].message:'+docs[0].message);
-	console.log('docs[0].modified'+docs[0].modified);
+	//console.log('docs[0].message:'+docs[0].message);
+	//console.log('docs[0].modified'+docs[0].modified);
       // console.log('docs:'+docs);
-
-       //以下のhtml ファイルは改行すると SyntaxError になる。
-       res.send('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0" />	<title>Twittaction</title>	<link rel="stylesheet" href="http://twittaction.com/movement/css/basic.css"/>	<script src="http://twittaction.com/movement/js/jquery.1.6.js"></script>	<script src="http://twittaction.com/movement/js/jsdeferred.js"></script>	<script src="http://twittaction.com/movement/js/move.js"></script>	<script src="http://twittaction.com/movement/js/twittaction.js"></script>	<style>	</style></head><body><div id="tweet">  '+docs[0].message+' <br> 		<span class="time">			<script>document.write(timeChenge("' + docs[0].modified + '"));</script>		</span>	</div>   <div id="wrapper">    	<div id="stage">		<div id="progressbar"></div>  		<div class="inner">        			<div id="cube">          				<div class="inner" id="cube-inner">            					<div class="side-a"></div>            					<div class="side-b"></div>            					<div class="side-c"></div> <div class="side-d"></div>            					<div class="side-e"></div>            					<div class="side-f"></div>					<div class="birdfoot"></div>     				</div>        			</div>      		</div>    	</div>  </div>  <script>var elemCube = document.getElementById("cube-inner"),	elemPbar = document.getElementById("progressbar");var data = new Object();var dataPos = 0;var startTime = 0;var currentTime = 0;var thi = -1;var tmp = '+docs[0].sequence[0]+'; insertData(tmp);imageUrl("'+docs[0].profile_image_url_https+'");function insertData(accelData){	data = accelData;	var now = new Date();	startTime = now.getTime();	setInterval("executeAction()",10);};function executeAction(){	var now = new Date();	currentTime = now.getTime();			if (data["timeFromStart"][dataPos] * 1000 < (currentTime - startTime)) {		dataPos ++;	}			if (data["X"].length <= dataPos) {		dataPos = 0;		startTime = currentTime;	}		var x  = data["X"][dataPos],    	y  = data["Y"][dataPos],    	z  = data["Z"][dataPos],    	th = data["trueHeading"][dataPos],    	tt = data["timestamp"][dataPos],   		ct = data["timeFromStart"][dataPos];		if ((th != void 0) && (thi == -1)) {   		thi = th;   	}		var xradtemp = ( Math.atan2(y,z) + Math.PI/2);   	var yradtemp = (-Math.atan2(z,x) - Math.PI/2);   	var zradtemp = (-Math.atan2(y,x) - Math.PI/2);		var xrad = ( Math.atan2(y * Math.abs(Math.cos(xradtemp)), z * Math.abs(Math.sin(xradtemp))) + Math.PI/2);	var yrad = (-Math.atan2(z * Math.abs(Math.cos(yradtemp)), x * Math.abs(Math.sin(yradtemp))) - Math.PI/2);	var zrad = (-Math.atan2(y * Math.abs(Math.cos(zradtemp)), x * Math.abs(Math.sin(zradtemp))) - Math.PI/2); 	    var xdeg = xrad * 180 / Math.PI;    var ydeg = yrad * 180 / Math.PI;    var zdeg = zrad * 180 / Math.PI;    xdeg += 45;    zdeg += thi - th;    	elemCube.style.webkitTransform = "rotateX(" + xdeg + "deg) " +	"rotateY(" + ydeg + "deg) " + "rotateZ(" + zdeg + "deg)";		elemPbar.style.width = (100 - (ct/(ct+tt) * 100))+ "%";}; function imageUrl(url){    var i = \'url("\'+ url +\'")\';     $(".side-a").css("background-image",i);}</script></body></html>');
+			var message =  docs[0].message;
+			var modified = docs[0].modified;
+			var sequence = docs[0].sequence[0];
+			var profile_image_url_https = docs[0].profile_image_url_https;
+			// 描画
+			res.render('viewAction.ejs', {locals:{message:message,modified:modified,sequence:sequence,profile_image_url_https:profile_image_url_https}});
    
 	}
   });
