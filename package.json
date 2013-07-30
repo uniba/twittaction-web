@@ -2,7 +2,8 @@
 	"name": "twittaction",
 	"version": "0.0.1",
 	"engines" : {
-    "node": "0.6"
+    "node": "0.6",
+    "npm": "0.3"
   },
   "dependencies": {
 		"express": "2.3.4",
