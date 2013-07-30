@@ -1,7 +1,10 @@
 {
 	"name": "twittaction",
 	"version": "0.0.1",
-	"dependencies": {
+	"engines" : {
+    "node": "0.6"
+  },
+  "dependencies": {
 		"express": "2.3.4",
 		"express-messages": "0.0.2",
 		"jade": "0.11.0",
